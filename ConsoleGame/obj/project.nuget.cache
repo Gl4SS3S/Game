@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "XXE5XGjnrqnDAXOw4YU91QzBXuyFn/tE5zjAtGCNZxKKRWq0hpY78OHBQzc1a0XcnMSC8YW2M0kgOT6mKofcJQ==",
+  "success": true,
+  "projectFilePath": "C:\\C_dev\\Game-main\\Game-main\\ConsoleGame\\ConsoleGame.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Jacques\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}
