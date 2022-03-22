@@ -13,7 +13,7 @@ namespace ConsoleGame.Combat
         public void InitFight(Player.Player player)
         {
             int turn = 1;
-            Enemy enemy = new Enemy()
+            Enemy enemy = new Enemy();
 
             Console.WriteLine("Starting fight");
             ExploreResult(player);
@@ -42,14 +42,32 @@ namespace ConsoleGame.Combat
             Random random = new Random();
             int attack = random.Next(5, 13);
 
-            Console.WriteLine($"Enemy attacks for - {attack}");
-            player.Health = player.Health - attack;
+            if (enemy.Health > 30)
+            {
+                Console.WriteLine($"Enemy attacks for - {attack}");
+                player.Health = player.Health - attack;
+            }
+            else
+            {
+                int probability = random.Next(0, 100);
+                if (probability <= 20)
+                {
+                    Console.WriteLine("Enemy Ran Away....");
+                    Thread.Sleep(1000);
+                    fight = false;
+                    return;
+                }
+                Console.WriteLine($"Enemy attacks for - {attack}");
+                player.Health = player.Health - attack;
+            }
 
             Console.Beep();
 
             Console.Write($"Player Health: ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("|" + new string('=', player.Health / 10) + "|");
+
+
 
             if (enemy.Health <= 0 || player.Health <= 0)
             {

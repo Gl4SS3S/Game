@@ -1,9 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "XXE5XGjnrqnDAXOw4YU91QzBXuyFn/tE5zjAtGCNZxKKRWq0hpY78OHBQzc1a0XcnMSC8YW2M0kgOT6mKofcJQ==",
+  "dgSpecHash": "jHf96k7dDGnjcs5Gfzi36d5DPXaKkONQMxAfbBCaqscYckyJuhv7KgQPhCaaOL+1ya6pivduYFvl586qpoxpgQ==",
   "success": true,
   "projectFilePath": "C:\\C_dev\\Game-main\\Game-main\\ConsoleGame\\ConsoleGame.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Jacques\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Jacques\\.nuget\\packages\\sixlabors.imagesharp\\1.0.2\\sixlabors.imagesharp.1.0.2.nupkg.sha512",
+    "C:\\Users\\Jacques\\.nuget\\packages\\spectre.console\\0.43.0\\spectre.console.0.43.0.nupkg.sha512",
+    "C:\\Users\\Jacques\\.nuget\\packages\\spectre.console.imagesharp\\0.43.0\\spectre.console.imagesharp.0.43.0.nupkg.sha512",
+    "C:\\Users\\Jacques\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\Jacques\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
     "C:\\Users\\Jacques\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512"
   ],
   "logs": []

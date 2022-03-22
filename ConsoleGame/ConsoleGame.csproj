@@ -6,4 +6,15 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Spectre.Console" Version="0.43.0" />
+      <PackageReference Include="Spectre.Console.ImageSharp" Version="0.43.0" />
+      <PackageReference Include="System.Windows.Extensions" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Audio\BGMusic\" />
+      <Folder Include="Audio\AudioEffects\" />
+    </ItemGroup>
+
 </Project>

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "1ca53ef2-3988-486a-998f-d07e416cff51": {
+      "ProjectGuid": "1ca53ef2-3988-486a-998f-d07e416cff51",
+      "DisplayName": "ConsoleGame",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using ConsoleGame.Player;
 using ConsoleGame.World;
+using Spectre.Console;
+using System.Media;
+using System.Threading;
+using System.IO;
 
 namespace ConsoleGame
 {
@@ -12,6 +17,7 @@ namespace ConsoleGame
         static string location = "A";
         static Player.Player player = new();
         private static Combat.Combat _combat = new Combat.Combat();
+        public static StringBuilder builder = new();
 
         static async Task Main(string[] args)
         {
@@ -19,21 +25,53 @@ namespace ConsoleGame
             Console.WindowHeight = 30;
             Console.WindowWidth = 120;
 
+            // Enable Background music
+            Thread musicPlayer = new Thread(PlayMusic);
+            musicPlayer.Start();
+
             //Init SKill
             player.Skills.Add("Jump Attack".ToLower(), new Skill { Name = "Jump Attack", Damage = 40, ResourceUsage = 40, Usage = SkillUsage.Stamina });
             player.Skills.Add("Shield Bash".ToLower(), new Skill { Name = "Shield Bash", Damage = 20, ResourceUsage = 50, Usage = SkillUsage.Stamina });
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Title = "Game";
-
             while (gameRunning)
             {
-                Console.WriteLine("Current location: " + location);
-                Console.WriteLine("Available options: " + String.Join(", ", Continents.GetOptions[location]) + " or Explore Area!");
-                string move = Console.ReadLine()?.ToLower();
+                builder.AppendLine("Current location: " + location)
+                    .AppendLine("Available options: " + String.Join(", ", Continents.GetOptions[location]) + " or Explore Area!");
+
+                var panel = new Panel(builder.ToString());
+                panel.Header("Game", Justify.Center);
+                panel.Expand();
+
+                string[] extraChoices = new string[] { "explore", "stats"};
+                extraChoices = extraChoices.Concat(Continents.GetOptions[location]).ToArray();
+
+                // Render the table to the console
+                AnsiConsole.Write(panel);
+                var move = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("What's your [green]Choice[/]?")
+                        .PageSize(10)
+                        .AddChoices(extraChoices));
+
+               
 
                 if (move != null) ProcessOption(move);
+                builder.Clear();
                 Console.Clear();
+            }
+        }
+
+        private static void PlayMusic(object obj)
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                var path =  Path.Combine(Path.GetFullPath(@"..\..\..\"), @"Audio\BGMusic", "Future King of Heaven - Zachariah Hickman.wav");
+                if (File.Exists(path))
+                {
+                    SoundPlayer player = new SoundPlayer(path);
+                    player.Load();
+                    player.PlayLooping();
+                }
             }
         }
 
