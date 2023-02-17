@@ -40,11 +40,11 @@
           "dependencies": {
             "Spectre.Console": {
               "target": "Package",
-              "version": "[0.43.0, )"
+              "version": "[0.46.0, )"
             },
             "Spectre.Console.ImageSharp": {
               "target": "Package",
-              "version": "[0.43.0, )"
+              "version": "[0.46.0, )"
             },
             "System.Windows.Extensions": {
               "target": "Package",
