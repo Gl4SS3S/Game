@@ -1,32 +1,69 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
+using System.Text;
 using System.Threading.Tasks;
 using ConsoleGame.Player;
 using ConsoleGame.World;
+using Spectre.Console;
+using System.Media;
+using System.Threading;
+using System.IO;
 
 namespace ConsoleGame
 {
     class Program
     {
         static bool gameRunning = true;
-        static bool fight = false;
         static string location = "A";
         static Player.Player player = new();
+        private static Combat.Combat _combat = new Combat.Combat();
+        public static StringBuilder builder = new();
 
-        
         static async Task Main(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Title = "Game";
+            //Init SKill
+            player.Skills.Add("Jump Attack".ToLower(), new Skill { Name = "Jump Attack", Damage = 40, ResourceUsage = 40, Usage = SkillUsage.Stamina });
+            player.Skills.Add("Shield Bash".ToLower(), new Skill { Name = "Shield Bash", Damage = 20, ResourceUsage = 50, Usage = SkillUsage.Stamina });
+
             while (gameRunning)
             {
-                Console.WriteLine("Current location: " + location);
-                Console.WriteLine("Available options: " + String.Join(", ", Continents.GetOptions[location]) + " or Explore Area");
-                string move = Console.ReadLine()?.ToLower();
+                builder.AppendLine("Current location: " + location)
+                    .AppendLine("Available options: " + String.Join(", ", Continents.GetOptions[location]) + " or Explore Area!");
+
+                var panel = new Panel(builder.ToString());
+                panel.Header("Game", Justify.Center);
+                panel.Expand();
+
+                string[] extraChoices = new string[] { "explore", "stats"};
+                extraChoices = extraChoices.Concat(Continents.GetOptions[location]).ToArray();
+
+                // Render the table to the console
+                AnsiConsole.Write(panel);
+                var move = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("What's your [green]Choice[/]?")
+                        .PageSize(10)
+                        .AddChoices(extraChoices));
+
+               
 
                 if (move != null) ProcessOption(move);
+                builder.Clear();
                 Console.Clear();
+            }
+        }
+
+        private static void PlayMusic(object obj)
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                var path =  Path.Combine(Path.GetFullPath(@"..\..\..\"), @"Audio\BGMusic", "Future King of Heaven - Zachariah Hickman.wav");
+                if (File.Exists(path))
+                {
+                    SoundPlayer player = new SoundPlayer(path);
+                    player.Load();
+                    player.PlayLooping();
+                }
             }
         }
 
@@ -35,7 +72,7 @@ namespace ConsoleGame
             switch (move)
             {
                 case "explore":
-                    InitFight();
+                    _combat.InitFight(player);
                     break;
                 case "exit":
                     gameRunning = false;
@@ -44,6 +81,7 @@ namespace ConsoleGame
                     CheckStats();
                     break;
                 default:
+                    if (!Continents.GetOptions.ContainsKey(move.ToUpper())) return;
                     location = move.ToUpper();
                     break;
             }
@@ -54,143 +92,45 @@ namespace ConsoleGame
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine(new string('=',30));
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Health: " + player.Health + " " + new string('=', player.Health/10));
+            Console.WriteLine("Health: " + player.Health + " " + new string('=', player.Health/10) + ">");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Damage: " + player.Attack);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Stamina: " + player.Stamina + " " + new string('=', player.Stamina / 10) + ">");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Experience: " + player.PlayerLevel.Experiance + " " + new string('=', (int)(player.PlayerLevel.Experiance / 10)) + ">");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Level: " + (player.PlayerLevel.Level + 1));
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine(new string('=',30));
             Console.WriteLine("Armour: " + (player.PlayerArmour == null ? "" : player.PlayerArmour.Armour));
             Console.WriteLine("Weapon: " + (player.PlayerWeapon == null ? "" : player.PlayerWeapon.Weapon));
             Console.WriteLine(new string('=',30));
+            Console.WriteLine("Inventory Items: " + player.Inventory.Count());
+            if (player.Inventory.Count() > 0)
+            {
+                int i = 0;
+                foreach (var item in player.Inventory.Values)
+                {
+                    if (i == 5) break;
+                    Console.Write(" - ");
+                    Console.WriteLine(item.Name + " " + item.Stats + " " + item.Type);
+                    i++;
+                }
+            }
+            Console.WriteLine(new string('=', 30));
             Console.ForegroundColor = ConsoleColor.Yellow;
 
-            Thread.Sleep(1500);
-        }
-
-        private static void InitFight()
-        {
-            int turn = 1;
-            Enemy enemy = new Enemy();
-            
-            Console.WriteLine("Starting fight");
-            ExploreResult();
-            while (fight)
+            Console.WriteLine("Press 'R' to return to exploring.");
+            while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine($"===== Turn {turn} =======");
-                if (turn % 2 == 0)
+                string key = Console.ReadLine().ToLower();
+                if (key == "r")
                 {
-
-                    Console.WriteLine("Your turn");
-                    Console.WriteLine("Choices: Attack");
-                    Attack(player, enemy);
-                    Console.Clear();
-                }
-                else
+                    return;
+                } else
                 {
-                    Defend(player, enemy);
-                }
-                
-                turn++;
-            }
-        }
-
-        private static void ExploreResult()
-        {
-            Random r = new Random();
-            if (r.Next(0,2) == 1)
-            {
-                fight = true;
-                return;
-            }
-
-            if (r.Next(0, 2) == 1)
-            {
-                PlayerArmour armour = new PlayerArmour();
-                Pickup(armour);
-            }
-            else
-            {
-                PlayerWeapon weapon = new PlayerWeapon();
-                Pickup(weapon);
-            }
-        }
-
-        private static void Pickup(object item)
-        {
-            var reflectedType = item.GetType();
-            if (reflectedType.FullName != null && reflectedType.FullName.Split('.').Contains("PlayerWeapon"))
-            {
-                Console.WriteLine("Picked up: " + (item as PlayerWeapon)?.Weapon);
-                Thread.Sleep(1000);
-                if (player.PlayerWeapon == null)
-                {
-                    player.Attack += ((PlayerWeapon) item).Damage;
-                }
-                player.PlayerWeapon = item as PlayerWeapon;
-            }
-            else
-            {
-                Console.WriteLine("Picked up: " + (item as PlayerArmour)?.Armour);
-                Thread.Sleep(1000);
-                if (player.PlayerArmour == null)
-                {
-                    player.Health += ((PlayerArmour) item).Health;
-                }
-                player.PlayerArmour = item as PlayerArmour;
-            }
-        }
-
-
-        private static void Defend(Player.Player player, Enemy enemy)
-        {
-            Random random = new Random();
-            int attack = random.Next(5, 13);
-
-            Console.WriteLine($"Enemy attacks for - {attack}");
-            player.Health = player.Health - attack;
-            
-            Console.Beep();
-            
-            Console.Write($"Player Health: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("|" + new string('=', player.Health / 10) + "|");
-
-            if (enemy.Health <= 0 || player.Health <= 0)
-            {
-                fight = false;
-                player.Health = 100;
-                if (player.PlayerArmour != null)
-                {
-                    player.Health += player.PlayerArmour.Health;
-                }
-            }
-        }
-
-        private static void Attack(Player.Player player, Enemy enemy)
-        {
-            Console.Write($"Enemy Health: ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("|" + new string('=', enemy.Health / 10) + "|");
-            string choice = Console.ReadLine()?.ToLower();
-
-            switch (choice)
-            {
-                case "attack":
-                    Console.Beep();
-                    enemy.Health = enemy.Health - player.Attack;
-                    break;
-            }
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"Enemy health: {enemy.Health}");
-            
-            if (enemy.Health <= 0 || player.Health <= 0)
-            {
-                fight = false;
-                player.Health = 100;
-                if (player.PlayerArmour != null)
-                {
-                    player.Health += player.PlayerArmour.Health;
+                    Console.WriteLine("Wrong input");
                 }
             }
         }
