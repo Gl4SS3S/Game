@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "jHf96k7dDGnjcs5Gfzi36d5DPXaKkONQMxAfbBCaqscYckyJuhv7KgQPhCaaOL+1ya6pivduYFvl586qpoxpgQ==",
+  "dgSpecHash": "+5fPjJS/tyv6uks9BkL5tS1R6YparTafjrF6MEvmHrg6WyYsK+R4iMBTvQfEE46Bk0Pp1CEuBFhCHzq3c4TUfw==",
   "success": true,
-  "projectFilePath": "C:\\C_dev\\Game-main\\Game-main\\ConsoleGame\\ConsoleGame.csproj",
+  "projectFilePath": "/Users/jthurling/game/ConsoleGame/ConsoleGame.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Jacques\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "C:\\Users\\Jacques\\.nuget\\packages\\sixlabors.imagesharp\\1.0.2\\sixlabors.imagesharp.1.0.2.nupkg.sha512",
-    "C:\\Users\\Jacques\\.nuget\\packages\\spectre.console\\0.43.0\\spectre.console.0.43.0.nupkg.sha512",
-    "C:\\Users\\Jacques\\.nuget\\packages\\spectre.console.imagesharp\\0.43.0\\spectre.console.imagesharp.0.43.0.nupkg.sha512",
-    "C:\\Users\\Jacques\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
-    "C:\\Users\\Jacques\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
-    "C:\\Users\\Jacques\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512"
+    "/Users/jthurling/.nuget/packages/microsoft.win32.systemevents/6.0.0/microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "/Users/jthurling/.nuget/packages/sixlabors.imagesharp/1.0.2/sixlabors.imagesharp.1.0.2.nupkg.sha512",
+    "/Users/jthurling/.nuget/packages/spectre.console/0.43.0/spectre.console.0.43.0.nupkg.sha512",
+    "/Users/jthurling/.nuget/packages/spectre.console.imagesharp/0.43.0/spectre.console.imagesharp.0.43.0.nupkg.sha512",
+    "/Users/jthurling/.nuget/packages/system.drawing.common/6.0.0/system.drawing.common.6.0.0.nupkg.sha512",
+    "/Users/jthurling/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512",
+    "/Users/jthurling/.nuget/packages/microsoft.netcore.app.host.osx-x64/5.0.17/microsoft.netcore.app.host.osx-x64.5.0.17.nupkg.sha512"
   ],
   "logs": []
 }

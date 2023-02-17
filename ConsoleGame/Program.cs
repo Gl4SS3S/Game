@@ -21,14 +21,6 @@ namespace ConsoleGame
 
         static async Task Main(string[] args)
         {
-            //Window Size
-            Console.WindowHeight = 30;
-            Console.WindowWidth = 120;
-
-            // Enable Background music
-            Thread musicPlayer = new Thread(PlayMusic);
-            musicPlayer.Start();
-
             //Init SKill
             player.Skills.Add("Jump Attack".ToLower(), new Skill { Name = "Jump Attack", Damage = 40, ResourceUsage = 40, Usage = SkillUsage.Stamina });
             player.Skills.Add("Shield Bash".ToLower(), new Skill { Name = "Shield Bash", Damage = 20, ResourceUsage = 50, Usage = SkillUsage.Stamina });
