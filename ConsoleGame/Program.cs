@@ -134,10 +134,5 @@ namespace ConsoleGame
                 }
             }
         }
-
-        
-
-
-
     }
 }
