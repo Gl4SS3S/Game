@@ -10,7 +10,8 @@ namespace ConsoleGame.World
             {"A", new []{"B", "C", "D"}},
             {"B", new []{"A", "D"}},
             {"C", new []{"A"}},
-            {"D", new []{"B"}}
+            {"D", new []{"B"}},
+            {"E", new []{"B"}},
         };
 
         public static Dictionary<string, string[]> GetOptions => _areas;
